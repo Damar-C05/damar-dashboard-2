@@ -1,8 +1,11 @@
-"use client"
+"use client";
 
 import { useState } from "react";
-import { login } from "./lib/auth";
 import { useRouter } from "next/navigation";
+import { Input, Button, Card } from "@nextui-org/react";
+import { login } from "./lib/auth";
+import Image from "next/image";
+import { toast } from "react-hot-toast";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -13,32 +16,52 @@ export default function LoginPage() {
     e.preventDefault();
     try {
       await login(email, password);
-      alert("Login successful!");
-      router.push("/dashboard"); // Redirect after login
+      toast.success("Login success!");
+      router.push("/dashboard");
     } catch (error) {
-      alert("Login failed!");
-      console.error(error);
+      toast.error("Wrong Email or Password", error);
     }
   };
 
   return (
-    <form onSubmit={handleLogin}>
-      <h1>Login</h1>
-      <input
-        type="email"
-        placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        required
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+      <Image
+        src={"/images/logo-2.svg"}
+        width={200}
+        height={200}
+        alt="logo"
+        className="mb-8"
       />
-      <input
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        required
-      />
-      <button type="submit">Login</button>
-    </form>
+      <Card className="max-w-md w-full p-8">
+        <h1 className="text-2xl font-bold mb-6 text-primary">Login</h1>
+        <form onSubmit={handleLogin} className="space-y-6">
+          <Input
+            label="Masukkan Email"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            fullWidth
+            clearable
+          />
+          <Input
+            label="Masukkan Password"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+            fullWidth
+            clearable
+          />
+          <Button
+            type="submit"
+            color="primary"
+            className="w-full bg-primary"
+            variant="shadow">
+            Login
+          </Button>
+        </form>
+      </Card>
+    </div>
   );
 }

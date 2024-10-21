@@ -36,13 +36,13 @@ export default function SideBar() {
               <span className="sr-only">Open sidebar</span>
             </button>
 
-            <a href="/dashboard" className="flex items-center">
+            <Link href="/dashboard" className="flex items-center">
               <img
                 src="/images/logo.svg"
                 className="h-12 ml-4"
                 alt="FlowBite Logo"
               />
-            </a>
+            </Link>
           </div>
 
           <div className="relative">

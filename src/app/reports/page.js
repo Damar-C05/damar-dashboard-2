@@ -152,8 +152,6 @@ export default function Reports() {
     Selesai: "success",
   };
 
-  console.log(sortCriteria);
-
   return (
     <div className="p-6 pt-28 min-h-screen sm:ml-64">
       <div className="flex flex-col md:flex-row gap-x-4 md:w-1/3">

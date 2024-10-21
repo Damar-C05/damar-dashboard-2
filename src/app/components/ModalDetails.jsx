@@ -19,7 +19,14 @@ export default function ModalDetails({ isOpen, onOpenChange, data }) {
     Selesai: "success",
   };
   return (
-    <Modal size="4xl" isOpen={isOpen} onOpenChange={onOpenChange}>
+    <Modal
+      size="4xl"
+      isOpen={isOpen}
+      onOpenChange={onOpenChange}
+      classNames={{
+        backdrop:
+          "bg-gradient-to-t from-zinc-900 to-zinc-900/10 backdrop-opacity-20",
+      }}>
       <ModalContent>
         {(onClose) => (
           <>
@@ -58,7 +65,7 @@ export default function ModalDetails({ isOpen, onOpenChange, data }) {
                   </div>
                 </CardBody>
               </Card>
-              <div className="grid grid-cols-2 gap-2 mt-4">
+              <div className="grid grid-cols-2 gap-2 mt-2">
                 <img
                   src={data.image}
                   alt="Laporan"
@@ -79,7 +86,7 @@ export default function ModalDetails({ isOpen, onOpenChange, data }) {
               <Button
                 variant="shadow"
                 color="primary"
-                className="mb-4"
+                className="mt-1 mb-4"
                 onClick={() =>
                   window.open(
                     `https://www.google.com/maps/search/?api=1&query=${data.latitude},${data.longitude}`,

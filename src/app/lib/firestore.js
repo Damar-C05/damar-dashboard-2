@@ -28,8 +28,6 @@ export const updateStatusDocument = async (
   if (status === "Ditanggapi" && notes) {
     updates.notes = notes;
   }
-
-  console.log(updates);
-
+  
   await updateDoc(doc(db, collectionName, id), updates);
 };

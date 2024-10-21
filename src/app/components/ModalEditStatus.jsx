@@ -38,7 +38,15 @@ export const ModalEditStatus = ({
   };
 
   return (
-    <Modal size="xl" isOpen={isOpen} onOpenChange={onOpenChange}>
+    <Modal
+      size="xl"
+      placement="center"
+      isOpen={isOpen}
+      onOpenChange={onOpenChange}
+      classNames={{
+        backdrop:
+          "bg-gradient-to-t from-zinc-900 to-zinc-900/10 backdrop-opacity-20",
+      }}>
       <ModalContent>
         {(onClose) => (
           <>

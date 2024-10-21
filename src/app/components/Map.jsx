@@ -11,13 +11,77 @@ const defaultMapCenter = {
 
 const defaultMapZoom = 13;
 
+const mapsTheme = [
+  {
+    featureType: "administrative",
+    elementType: "labels",
+    stylers: [
+      {
+        visibility: "on",
+      },
+    ],
+  },
+  {
+    featureType: "poi",
+    elementType: "labels",
+    stylers: [
+      {
+        visibility: "off",
+      },
+    ],
+  },
+  {
+    featureType: "road",
+    elementType: "labels",
+    stylers: [
+      {
+        visibility: "on",
+      },
+    ],
+  },
+  {
+    featureType: "transit",
+    elementType: "labels",
+    stylers: [
+      {
+        visibility: "on",
+      },
+    ],
+  },
+  {
+    featureType: "transit.station",
+    elementType: "labels",
+    stylers: [
+      {
+        visibility: "on",
+      },
+    ],
+  },
+  {
+    featureType: "water",
+    elementType: "all",
+    stylers: [
+      {
+        color: "#a0daf2",
+      },
+    ],
+  },
+];
+
 const defaultMapOptions = {
   zoomControl: true,
   tilt: 0,
   gestureHandling: "auto",
+  styles: mapsTheme,
 };
 
-const MapComponent = ({ height, markers = [], latitude, longitude }) => {
+const MapComponent = ({
+  height = "70vh",
+  markers = [],
+  latitude,
+  longitude,
+  children,
+}) => {
   const [location, setLocation] = useState({
     lat: latitude || defaultMapCenter.lat,
     lng: longitude || defaultMapCenter.lng,
@@ -31,8 +95,6 @@ const MapComponent = ({ height, markers = [], latitude, longitude }) => {
       });
     }
   }, [latitude, longitude]);
-
-  console.log(latitude, longitude);
 
   const defaultMapContainerStyle = {
     width: "100%",
@@ -48,7 +110,6 @@ const MapComponent = ({ height, markers = [], latitude, longitude }) => {
           center={location}
           zoom={defaultMapZoom}
           options={defaultMapOptions}>
-          {/* Render markers if available */}
           {markers.map((marker, index) => (
             <Marker
               key={index}
@@ -56,6 +117,7 @@ const MapComponent = ({ height, markers = [], latitude, longitude }) => {
               title={marker.title}
             />
           ))}
+          {children}
         </GoogleMap>
       </div>
     </MapProvider>

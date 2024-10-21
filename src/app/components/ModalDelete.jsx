@@ -19,7 +19,11 @@ export const ModalDelete = ({ isOpen, onOpenChange, data, onConfirm }) => {
       placement="center"
       size="sm"
       isOpen={isOpen}
-      onOpenChange={onOpenChange}>
+      onOpenChange={onOpenChange}
+      classNames={{
+        backdrop:
+          "bg-gradient-to-t from-zinc-900 to-zinc-900/10 backdrop-opacity-20",
+      }}>
       <ModalContent>
         {(onClose) => (
           <>

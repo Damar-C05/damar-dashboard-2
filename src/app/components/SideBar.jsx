@@ -1,4 +1,5 @@
 "use client";
+
 import { useState } from "react";
 import {
   FaBars,
@@ -8,6 +9,8 @@ import {
   FaBusAlt,
 } from "react-icons/fa";
 import { AiFillHome } from "react-icons/ai";
+import { usePathname } from "next/navigation";
+import Link from "next/link";
 
 const menuItems = [
   { icon: <AiFillHome />, label: "Dashboard", href: "/dashboard" },
@@ -19,7 +22,7 @@ export default function SideBar() {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const [isProfileOpen, setProfileOpen] = useState(false);
 
-  const [activeMenu, setActiveMenu] = useState("Dashboard");
+  const pathname = usePathname();
 
   return (
     <>
@@ -45,8 +48,13 @@ export default function SideBar() {
           <div className="relative">
             <button
               onClick={() => setProfileOpen(!isProfileOpen)}
-              className="flex p-2 items-center text-sm bg-slate-400 rounded-full focus:ring-4 focus:ring-slate-200 dark:focus:ring-gray-600">
-              <FaUser className="w-4 h-4 text-white" />
+              className="flex center text-sm rounded-full focus:ring-4 focus:ring-slate-200 dark:focus:ring-gray-600">
+              <img
+                src="/images/logo-circle.svg"
+                alt="profile"
+                height={42}
+                width={42}
+              />
               <span className="sr-only">Open user menu</span>
             </button>
 
@@ -54,19 +62,19 @@ export default function SideBar() {
               <div className="absolute right-0 mt-2 w-48 bg-white divide-y divide-gray-100 rounded shadow dark:bg-gray-700 dark:divide-gray-600">
                 <div className="px-4 py-3">
                   <p className="text-sm text-gray-900 dark:text-white font-bold">
-                    Neil Sims
+                    Afix Vega Praditya
                   </p>
                   <p className="text-sm font-medium text-gray-500 truncate dark:text-gray-300">
-                    neil.sims@flowbite.com
+                    afix@gmail.com
                   </p>
                 </div>
                 <ul className="py-1">
                   <li>
-                    <a
-                      href="#"
+                    <Link
+                      href="/"
                       className="flex items-center px-4 py-2 text-sm text-red-600 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600">
                       <FaSignOutAlt className="me-2" /> Sign out
-                    </a>
+                    </Link>
                   </li>
                 </ul>
               </div>
@@ -84,16 +92,16 @@ export default function SideBar() {
           <ul className="space-y-1 font-medium mt-4">
             {menuItems.map((item, index) => (
               <li key={index}>
-                <a
+                <Link
                   href={item.href}
                   className={`flex items-center py-4 px-3 rounded-lg  ${
-                    activeMenu === item.label
+                    pathname === item.href
                       ? "bg-[#2F4674] text-white hover:opacity-80"
                       : "text-slate-400  hover:bg-gray-100"
                   }`}>
                   {item.icon}
                   <span className="ms-3">{item.label}</span>
-                </a>
+                </Link>
               </li>
             ))}
           </ul>

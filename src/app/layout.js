@@ -1,17 +1,12 @@
-import localFont from "next/font/local";
 import "./globals.css";
 import { Providers } from "./providers";
 import { Toaster } from "react-hot-toast";
+import { SidebarWrapper } from "./components";
+import { Plus_Jakarta_Sans } from "next/font/google";
 
-const geistSans = localFont({
-  src: "./assets/fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
-const geistMono = localFont({
-  src: "./assets/fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
+const jakartaSans = Plus_Jakarta_Sans({
+  subsets: ["latin"],
+  display: "swap",
 });
 
 export const metadata = {
@@ -22,10 +17,10 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+      <body className={jakartaSans.className}>
         <Providers>
           <Toaster position="top-center" />
+          <SidebarWrapper />
           {children}
         </Providers>
       </body>

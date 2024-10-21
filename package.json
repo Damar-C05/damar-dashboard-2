@@ -12,6 +12,7 @@
     "@firebase/auth": "^1.7.9",
     "@firebase/firestore": "^4.7.3",
     "@nextui-org/react": "^2.4.8",
+    "@react-google-maps/api": "^2.20.3",
     "firebase": "^10.14.1",
     "framer-motion": "^11.11.9",
     "moment": "^2.30.1",

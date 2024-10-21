@@ -13,7 +13,13 @@ import {
 } from "@nextui-org/react";
 import { useState, useEffect } from "react";
 
-export const ModalEditStatus = ({ isOpen, onOpenChange, data, onSubmit }) => {
+export const ModalEditStatus = ({
+  isOpen,
+  onOpenChange,
+  data,
+  onSubmit,
+  options = ["Dilaporkan", "Ditanggapi", "Diproses", "Selesai"],
+}) => {
   const [status, setStatus] = useState(data.status);
   const [notes, setNotes] = useState(data?.notes || "");
 
@@ -26,8 +32,6 @@ export const ModalEditStatus = ({ isOpen, onOpenChange, data, onSubmit }) => {
     onSubmit(data.id, status, notes);
     onOpenChange();
   };
-
-  const options = ["Diajukan", "Ditanggapi", "Diproses", "Selesai"];
 
   const handleSelectionChange = (e) => {
     setStatus(e.target.value);

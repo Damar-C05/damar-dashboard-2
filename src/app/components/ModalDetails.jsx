@@ -11,7 +11,12 @@ import {
 import moment from "moment";
 import { MapComponent } from ".";
 
-export default function ModalDetails({ isOpen, onOpenChange, data }) {
+export default function ModalDetails({
+  isOpen,
+  onOpenChange,
+  data,
+  stream = false,
+}) {
   const statusColorMap = {
     Dilaporkan: "default",
     Ditanggapi: "primary",
@@ -31,7 +36,9 @@ export default function ModalDetails({ isOpen, onOpenChange, data }) {
         {(onClose) => (
           <>
             <ModalHeader>
-              <h3 className="text-lg font-semibold">Detail Laporan</h3>
+              <h3 className="text-lg font-semibold">
+                {stream ? "Detail Deteksi" : "Detail Laporan"}
+              </h3>
             </ModalHeader>
             <ModalBody>
               <div className="flex items-center mb-4">
@@ -46,11 +53,14 @@ export default function ModalDetails({ isOpen, onOpenChange, data }) {
                 <CardBody>
                   <div className="grid grid-cols-2 gap-y-2">
                     <p className="mb-2 flex flex-col">
-                      <strong className="mb-1">Pengirim</strong> {data.fullname}
+                      <strong className="mb-1">
+                        {stream ? "Device" : "Pengirim"}
+                      </strong>
+                      {stream ? data.device_name : data.fullname}
                     </p>
                     <p className="mb-2 flex flex-col">
-                      <strong className="mb-1">Lokasi</strong>{" "}
-                      {data.locationName}
+                      <strong className="mb-1">Lokasi</strong>
+                      {stream ? data.location_name : data.locationName}
                     </p>
                     <p className="mb-2 flex flex-col">
                       <strong className="mb-1">Tanggal</strong>{" "}
@@ -59,9 +69,12 @@ export default function ModalDetails({ isOpen, onOpenChange, data }) {
                     <p className="mb-2 flex flex-col">
                       <strong className="mb-1">Area</strong> {data.area} m²
                     </p>
-                    <p className="mb-2 flex flex-col">
-                      <strong className="mb-1">Keluhan</strong> {data.deskripsi}
-                    </p>
+                    {!stream && (
+                      <p className="mb-2 flex flex-col">
+                        <strong className="mb-1">Keluhan</strong>{" "}
+                        {data.deskripsi}
+                      </p>
+                    )}
                   </div>
                 </CardBody>
               </Card>

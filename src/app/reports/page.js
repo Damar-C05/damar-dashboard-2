@@ -77,7 +77,7 @@ export default function Reports() {
     const fetchData = async () => {
       const result = await getAllDocuments("Laporan");
       setData(result);
-      setLoading(false); // Move loading false here to ensure loading only stops after data is fetched
+      setLoading(false);
     };
     fetchData();
   }, []);
@@ -113,12 +113,6 @@ export default function Reports() {
 
   const pages = Math.ceil(data.length / rowsPerPage);
 
-  const filteredData = useMemo(() => {
-    return data.filter((item) =>
-      item.fullname.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-  }, [data, searchTerm]);
-
   const sortedData = useMemo(() => {
     const sorted = [...data];
 
@@ -136,7 +130,7 @@ export default function Reports() {
       return sorted.sort((a, b) => a.status.localeCompare(b.status));
     }
 
-    return sorted; // Default return
+    return sorted;
   }, [data, sortCriteria]);
 
   const items = useMemo(() => {
@@ -154,18 +148,9 @@ export default function Reports() {
 
   return (
     <div className="p-6 pt-28 min-h-screen sm:ml-64">
-      <div className="flex flex-col md:flex-row gap-x-4 md:w-1/3">
-        <Input
-          label="Cari berdasarkan pengirim"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className="mb-4"
-          aria-label="Search by sender"
-          variant="bordered"
-        />
-
+      <div className="flex flex-col md:flex-row gap-x-4 md:w-[250px]">
         <Select
-          label="Urutkan dari"
+          label="Urutkan berdasarkan"
           selectedKeys={[sortCriteria]}
           onChange={(e) => setSortCriteria(e.target.value)}
           className="mb-4"
@@ -175,7 +160,7 @@ export default function Reports() {
           <SelectItem key="oldest">Paling Lama</SelectItem>
           <SelectItem key="largest">Luas Lubang Terbesar</SelectItem>
           <SelectItem key="smallest">Luas Lubang Terkecil</SelectItem>
-          <SelectItem key="fullname">Sender</SelectItem>
+          <SelectItem key="fullname">Pengirim</SelectItem>
           <SelectItem key="status">Status</SelectItem>
         </Select>
       </div>

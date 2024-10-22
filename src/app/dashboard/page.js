@@ -7,6 +7,18 @@ import { getAllDocuments } from "../lib/firestore";
 import { Marker } from "@react-google-maps/api";
 import { useDisclosure, Card, CardBody } from "@nextui-org/react";
 import { ModalDetails } from "../components";
+import { Bar } from "react-chartjs-2";
+import {
+  Chart as ChartJS,
+  BarElement,
+  CategoryScale,
+  LinearScale,
+  Tooltip,
+  Legend,
+} from "chart.js";
+import { motion } from "framer-motion";
+
+ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
 
 export default function Dashboard() {
   const [reports, setReports] = useState([]);
@@ -86,17 +98,54 @@ export default function Dashboard() {
     },
   ];
 
+  const chartData = {
+    labels: statistics.map((stat) => stat.label),
+    datasets: [
+      {
+        label: "Jumlah",
+        data: statistics.map((stat) => stat.value),
+        backgroundColor: "rgba(75, 192, 192, 0.6)",
+        borderColor: "rgba(75, 192, 192, 1)",
+        borderWidth: 1,
+      },
+    ],
+  };
+
+  const chartOptions = {
+    scales: {
+      y: {
+        beginAtZero: true,
+      },
+    },
+    animation: {
+      duration: 1500,
+      easing: "easeOutQuart",
+    },
+  };
+
+  const cardVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0 },
+  };
+
   return (
     <>
       <div className="p-6 pt-28 min-h-screen sm:ml-64">
         <div className="grid grid-cols-2 sm:grid-cols-5 gap-4 mb-6">
           {statistics.map((label, index) => (
-            <Card key={index}>
-              <CardBody>
-                <h3 className="text text-sm text-gray-500">{label.label}</h3>
-                <h2 className="text-4xl font-semibold">{label.value}</h2>
-              </CardBody>
-            </Card>
+            <motion.div
+              key={index}
+              initial="hidden"
+              animate="visible"
+              transition={{ delay: index * 0.2, duration: 0.5 }}
+              variants={cardVariants}>
+              <Card>
+                <CardBody>
+                  <h3 className="text text-sm text-gray-500">{label.label}</h3>
+                  <h2 className="text-4xl font-semibold">{label.value}</h2>
+                </CardBody>
+              </Card>
+            </motion.div>
           ))}
         </div>
         <MapComponent>
@@ -139,6 +188,15 @@ export default function Dashboard() {
               />
             ))}
         </MapComponent>
+
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1.5 }}
+          className="my-8">
+          <Bar data={chartData} options={chartOptions} />
+        </motion.div>
+
         <ModalDetails
           isOpen={isOpen}
           onOpenChange={onOpenChange}

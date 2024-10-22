@@ -114,7 +114,7 @@ const MapComponent = ({
             <Marker
               key={index}
               position={{ lat: marker.lat, lng: marker.lng }}
-              title={marker.title}
+              title={marker?.title}
             />
           ))}
           {children}

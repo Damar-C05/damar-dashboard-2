@@ -52,7 +52,7 @@ export default function Reports() {
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [sortCriteria, setSortCriteria] = useState("newest");
-  const rowsPerPage = 4;
+  const rowsPerPage = 7;
 
   const {
     isOpen: isDetailsOpen,

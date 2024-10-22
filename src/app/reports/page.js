@@ -27,6 +27,7 @@ import { IoEyeOutline } from "react-icons/io5";
 import { AiOutlineEdit } from "react-icons/ai";
 import { FiTrash2 } from "react-icons/fi";
 import { ModalDetails, ModalEditStatus, ModalDelete } from "../components";
+import { toast } from "react-hot-toast";
 
 const ActionButton = ({ icon: Icon, tooltipText, onClick, color }) => (
   <Tooltip color={color} content={tooltipText} placement="top">
@@ -50,7 +51,6 @@ export default function Reports() {
   const [selectedReport, setSelectedReport] = useState(null);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
-  const [searchTerm, setSearchTerm] = useState("");
   const [sortCriteria, setSortCriteria] = useState("newest");
   const rowsPerPage = 4;
 
@@ -92,10 +92,15 @@ export default function Reports() {
   };
 
   const handleUpdateStatus = async (id, newStatus, notes) => {
-    await updateStatusDocument("Laporan", id, newStatus, notes);
-    const result = await getAllDocuments("Laporan");
-    setData(result);
-    onEditOpenChange();
+    try {
+      await updateStatusDocument("Laporan", id, newStatus, notes);
+      const result = await getAllDocuments("Laporan");
+      setData(result);
+      onEditOpenChange();
+      toast.success("Status berhasil diubah!");
+    } catch (error) {
+      toast.error("Gagal mengubah status!", error);
+    }
   };
 
   const handleDeleteOpen = (report) => {
@@ -104,10 +109,15 @@ export default function Reports() {
   };
 
   const handleDeleteReport = async (id) => {
-    await deleteDocument("Laporan", id);
-    const result = await getAllDocuments("Laporan");
-    setData(result);
-    onDeleteOpenChange();
+    try {
+      await deleteDocument("Laporan", id);
+      const result = await getAllDocuments("Laporan");
+      setData(result);
+      onDeleteOpenChange();
+      toast.success("Laporan berhasil dihapus!");
+    } catch (error) {
+      toast.error("Gagal menghapus laporan!", error);
+    }
   };
 
   const pages = Math.ceil(data.length / rowsPerPage);

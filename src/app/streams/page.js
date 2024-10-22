@@ -19,7 +19,6 @@ import {
   Chip,
   Tooltip,
   Spinner,
-  Input,
   Select,
   SelectItem,
 } from "@nextui-org/react";
@@ -28,6 +27,7 @@ import { IoEyeOutline } from "react-icons/io5";
 import { AiOutlineEdit } from "react-icons/ai";
 import { FiTrash2 } from "react-icons/fi";
 import { ModalDetails, ModalEditStatus, ModalDelete } from "../components";
+import { toast } from "react-hot-toast";
 
 const ActionButton = ({ icon: Icon, tooltipText, onClick, color }) => (
   <Tooltip color={color} content={tooltipText} placement="top">
@@ -51,7 +51,6 @@ export default function Streams() {
   const [selectedReport, setSelectedReport] = useState(null);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
-  const [searchTerm, setSearchTerm] = useState("");
   const [sortCriteria, setSortCriteria] = useState("newest");
   const rowsPerPage = 4;
 
@@ -93,10 +92,15 @@ export default function Streams() {
   };
 
   const handleUpdateStatus = async (id, newStatus) => {
-    await updateStatusDocument("Streams", id, newStatus);
-    const result = await getAllDocuments("Streams");
-    setData(result);
-    onEditOpenChange();
+    try {
+      await updateStatusDocument("Streams", id, newStatus);
+      const result = await getAllDocuments("Streams");
+      setData(result);
+      onEditOpenChange();
+      toast.success("Status deteksi berhasil diubah!");
+    } catch (error) {
+      toast.error("Gagal mengubah status deteksi", error);
+    }
   };
 
   const handleDeleteOpen = (report) => {
@@ -105,10 +109,15 @@ export default function Streams() {
   };
 
   const handleDeleteReport = async (id) => {
-    await deleteDocument("Streams", id);
-    const result = await getAllDocuments("Streams");
-    setData(result);
-    onDeleteOpenChange();
+    try {
+      await deleteDocument("Streams", id);
+      const result = await getAllDocuments("Streams");
+      setData(result);
+      onDeleteOpenChange();
+      toast.success("Deteksi berhasil dihapus!");
+    } catch (error) {
+      toast.error("Gagal menghapus Deteksi!", error);
+    }
   };
 
   const pages = Math.ceil(data.length / rowsPerPage);
@@ -145,7 +154,7 @@ export default function Streams() {
     Selesai: "success",
   };
 
-  const statusOptions = ['Dideteksi', 'Diproses', 'Selesai'];
+  const statusOptions = ["Dideteksi", "Diproses", "Selesai"];
 
   return (
     <div className="p-6 pt-28 min-h-screen sm:ml-64">

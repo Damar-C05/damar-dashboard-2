@@ -5,7 +5,7 @@ import { MapComponent } from "../components";
 import { ReportMarker, StreamMarker, WarningMarker } from "../assets/icons";
 import { getAllDocuments } from "../lib/firestore";
 import { Marker } from "@react-google-maps/api";
-import { useDisclosure, Card, CardBody } from "@nextui-org/react";
+import { useDisclosure, Card, CardBody, Chip } from "@nextui-org/react";
 import { ModalDetails } from "../components";
 import { Bar } from "react-chartjs-2";
 import {
@@ -16,7 +16,7 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-import { motion } from "framer-motion";
+import { color, motion } from "framer-motion";
 
 ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
 
@@ -76,25 +76,35 @@ export default function Dashboard() {
 
   const statistics = [
     {
+      label: "Total Data Masuk",
+      value: dataStatistics.totalReports + dataStatistics.totalStreams,
+      color: "primary",
+    },
+    {
       label: "Total Laporan",
       value: dataStatistics.totalReports,
+      color: "default",
     },
     {
       label: "Total Deteksi",
       value: dataStatistics.totalStreams,
+      color: "default",
     },
     {
       label: "Total Jalan Rusak",
       value: dataStatistics.totalDamagedRoads,
+      color: "danger",
     },
 
     {
-      label: "Jalan Sedang Diperbaiki",
+      label: "Sedang Diperbaiki",
       value: dataStatistics.inProgressRoads,
+      color: "warning",
     },
     {
-      label: "Jalan Sudah Diperbaiki",
+      label: "Sudah Diperbaiki",
       value: dataStatistics.repairedRoads,
+      color: "success",
     },
   ];
 
@@ -131,7 +141,7 @@ export default function Dashboard() {
   return (
     <>
       <div className="p-6 pt-28 min-h-screen sm:ml-64">
-        <div className="grid grid-cols-2 sm:grid-cols-5 gap-4 mb-6">
+        <div className="grid grid-cols-2 lg:grid-cols-3 2xl:grid-cols-6 gap-4 mb-6">
           {statistics.map((label, index) => (
             <motion.div
               key={index}
@@ -141,8 +151,13 @@ export default function Dashboard() {
               variants={cardVariants}>
               <Card>
                 <CardBody>
-                  <h3 className="text text-sm text-gray-500">{label.label}</h3>
-                  <h2 className="text-4xl font-semibold">{label.value}</h2>
+                  <Chip color={label.color} variant="shadow" size="md">
+                    <h3 className="">{label.label}</h3>
+                  </Chip>
+
+                  <h2 className="text-5xl text-end font-semibold mt-2 sm:-mt-4">
+                    {label.value}
+                  </h2>
                 </CardBody>
               </Card>
             </motion.div>
@@ -193,7 +208,7 @@ export default function Dashboard() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1.5 }}
-          className="my-8">
+          className="my-8 w-full">
           <Bar data={chartData} options={chartOptions} />
         </motion.div>
 

@@ -114,8 +114,8 @@ export default function Dashboard() {
       {
         label: "Jumlah",
         data: statistics.map((stat) => stat.value),
-        backgroundColor: "rgba(75, 192, 192, 0.6)",
-        borderColor: "rgba(75, 192, 192, 1)",
+        backgroundColor: "rgb(47, 70, 116)",
+        borderColor: "rgb(47, 70, 116)",
         borderWidth: 1,
       },
     ],
